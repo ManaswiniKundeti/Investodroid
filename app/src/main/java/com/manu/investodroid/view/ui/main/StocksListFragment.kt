@@ -6,12 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manu.investodroid.R
 import com.manu.investodroid.view.adapter.StocksListAdapter
+import com.manu.investodroid.viewmodel.MainActivityViewModel
 
 class StocksListFragment : Fragment() {
+
+    private lateinit var model : MainActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +35,6 @@ class StocksListFragment : Fragment() {
         stocksList.adapter = stocksListAdapter
 
         //create observer to update Ui after network calls
-
 
         return view
     }
