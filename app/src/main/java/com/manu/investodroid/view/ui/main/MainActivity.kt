@@ -15,10 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navController = findNavController(R.id.nav_host_fragment_container)
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        //set toolbar text
-        findViewById<Toolbar>(R.id.toolbar).title = "INVESTODROID"
+        //App bar
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
+//        findViewById<Toolbar>(R.id.toolbar).title = "INVESTODROID"
 
         //set bottom navigation view
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)

@@ -3,7 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/stocksListNavGraphFragment">
 <!--    app:startDestination="@id/stocksListFragment">-->
 
+    <fragment
+        android:id="@+id/stocksListNavGraphFragment"
+        android:name="com.manu.investodroid.view.ui.main.StocksListFragment"
+        android:label="StocksListFragment" />
 </navigation>

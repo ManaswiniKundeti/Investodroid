@@ -21,7 +21,7 @@ class MainRepository(private val investodroidService: IInvestodroidService) : IM
     val stockListLiveData : LiveData<ViewState<List<Stock>>> = _stocksListLiveData
 
     override fun getStocksList() {
-
+        FetchStockListTask(_stocksListLiveData,investodroidService).execute()
     }
 
     class FetchStockListTask(
