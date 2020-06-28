@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/stocksListFragment"
+        android:icon="@android:drawable/ic_input_get"
+        android:title="Stocks" />
+
+    <item
+        android:id="@+id/stockFavouritesFragment"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="Favourites" />
+</menu>

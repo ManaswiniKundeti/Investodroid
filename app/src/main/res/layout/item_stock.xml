@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:id="@+id/item_stock_constraint_layout"
+    android:clickable="true">
+
+
+    <TextView
+        android:id="@+id/stock_name"
+        android:layout_width="68dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="15dp"
+        tools:text="Stock Name"
+        app:layout_constraintBottom_toTopOf="@+id/stock_symbol"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/stock_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        tools:text="Stock Symbol"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/stock_name"
+        app:layout_constraintStart_toStartOf="@+id/stock_name"/>
+
+    <TextView
+        android:id="@+id/stock_price"
+        android:layout_width="66dp"
+        android:layout_height="36dp"
+        tools:text="Stock Price"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toEndOf="@+id/stock_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.363" />
+</androidx.constraintlayout.widget.ConstraintLayout>
