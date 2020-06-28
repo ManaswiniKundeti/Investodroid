@@ -28,7 +28,7 @@ fun createInvestodroidService() : IInvestodroidService {
 interface IInvestodroidService {
 
     @GET("stock/list?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
-    fun fetchStockList() : Call<Stock>
+    fun fetchStockList() : Call<List<Stock>>
 
     @GET("company/profile/{name}?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
     fun fetchStockDetails(

@@ -37,16 +37,16 @@ class MainRepository(private val investodroidService: IInvestodroidService) : IM
         }
 
         override fun doInBackground(vararg p0: Void): List<Stock>? {
-            try {
+            return try {
                 val response = investodroidService.fetchStockList().execute()
                 if(response.isSuccessful && response.body() != null) {
-                    return response.body()
+                    response.body()
                 }else{
-                    return null
+                    null
                 }
             }catch (e : Exception){
                 Log.e(TAG,e.message)
-                return null
+                null
             }
         }
 
