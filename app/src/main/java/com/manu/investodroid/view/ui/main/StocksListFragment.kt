@@ -5,18 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manu.investodroid.R
+import com.manu.investodroid.extensions.hide
+import com.manu.investodroid.extensions.show
+import com.manu.investodroid.model.Stock
 import com.manu.investodroid.view.adapter.StocksListAdapter
 import com.manu.investodroid.viewmodel.MainActivityViewModel
+import com.manu.investodroid.viewmodel.MainActivityViewModelFactory
+import com.manu.investodroid.viewstate.Error
+import com.manu.investodroid.viewstate.Loading
+import com.manu.investodroid.viewstate.Success
+import com.manu.investodroid.viewstate.ViewState
+import kotlinx.android.synthetic.main.fragment_stocks_list.*
 
 class StocksListFragment : Fragment() {
 
-    private lateinit var model : MainActivityViewModel
+    private val viewmodelFactory by lazy { MainActivityViewModelFactory(requireContext()) }
+    private val viewModel: MainActivityViewModel by viewModels {
+        viewmodelFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +51,22 @@ class StocksListFragment : Fragment() {
         stocksList.adapter = stocksListAdapter
 
         //create observer to update Ui after network calls
-
+        val stocksListObserver = Observer<ViewState<List<Stock>>>{viewState ->
+            when(viewState) {
+                is Success -> {
+                    stocks_list_progress_bar.hide()
+                    stocksListAdapter.setStocksList(viewState.data)
+                }
+                is Error -> {
+                    stocks_list_progress_bar.hide()
+                    Toast.makeText(requireContext(), viewState.errMsg, Toast.LENGTH_SHORT).show()
+                }
+                is Loading -> {
+                    stocks_list_progress_bar.show()
+                }
+            }
+        }
+        viewModel.stockLiveData.observe(viewLifecycleOwner, stocksListObserver)
         return view
     }
 
