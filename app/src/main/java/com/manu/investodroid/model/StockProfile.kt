@@ -7,7 +7,7 @@ import com.squareup.moshi.Json
 @Entity
 data class StockProfile (
     @field:Json(name = "companyName") @PrimaryKey val companyName : String,
-    @field:Json(name = "price")val price : Float,
+    @field:Json(name = "price") val price : Float,
     @field:Json(name = "mktCap")val mktCap : Float,
     @field:Json(name = "lastDiv")val lastDiv : Float,
     @field:Json(name = "changes")val changes : Float,
