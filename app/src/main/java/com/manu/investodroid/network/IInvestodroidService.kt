@@ -30,9 +30,9 @@ interface IInvestodroidService {
     @GET("stock/list?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
     fun fetchStockList() : Call<List<Stock>>
 
-    @GET("company/profile/{name}?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
+    @GET("company/profile/{symbol}?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
     fun fetchStockDetails(
-        @Path("name") name :String
+        @Path("symbol") symbol :String
     ) : Call<StockDetail>
 
 }
