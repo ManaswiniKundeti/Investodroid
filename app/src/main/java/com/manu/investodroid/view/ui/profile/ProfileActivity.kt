@@ -48,6 +48,7 @@ class ProfileActivity : AppCompatActivity() {
                     val stockProfile = viewState.data
                     companyName.text = stockProfile.companyName
                     stockPrice.text = stockProfile.price.toString()
+                    ceo_name.text = stockProfile.ceo
                 }
                 is Error -> {
                     profile_progress_bar.hide()
