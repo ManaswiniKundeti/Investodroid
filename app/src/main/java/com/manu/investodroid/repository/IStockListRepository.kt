@@ -1,5 +1,5 @@
 package com.manu.investodroid.repository
 
-interface IMainRepository {
+interface IStockListRepository {
     fun getStocksList()
 }

@@ -12,9 +12,9 @@ import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
 import java.lang.Exception
 
-class MainRepository(private val investodroidService: IInvestodroidService) : IMainRepository{
+class StockListRepository(private val investodroidService: IInvestodroidService) : IStockListRepository{
 
-    private val TAG = MainRepository::class.java.simpleName
+    private val TAG = StockListRepository::class.java.simpleName
 
     //LiveData
     private val _stocksListLiveData : MutableLiveData<ViewState<List<Stock>>> = MutableLiveData()
