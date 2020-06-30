@@ -33,8 +33,6 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         val symbol = findViewById<TextView>(R.id.symbol)
-        val companyName = findViewById<TextView>(R.id.company_name)
-        val stockPrice = findViewById<TextView>(R.id.price)
 
         val intent : Intent = intent
         val clickedStockSymbol = intent.getStringExtra("stock_symbol")
@@ -46,9 +44,11 @@ class ProfileActivity : AppCompatActivity() {
                 is Success -> {
                     profile_progress_bar.hide()
                     val stockProfile = viewState.data
-                    companyName.text = stockProfile.companyName
-                    stockPrice.text = stockProfile.price.toString()
+                    company_name.text = stockProfile.companyName
+                    price.text = stockProfile.price.toString()
                     ceo_name.text = stockProfile.ceo
+                    headquarters_name.text = stockProfile.city+","+stockProfile.state
+
                 }
                 is Error -> {
                     profile_progress_bar.hide()
