@@ -19,6 +19,7 @@ data class StockProfile (
     @field:Json(name = "description")val description : String,
     @field:Json(name = "ceo")val ceo : String,
     @field:Json(name = "country")val country : String,
+    @field:Json(name = "fullTimeEmployees")val fullTimeEmployees : String,
     @field:Json(name = "address")val address : String,
     @field:Json(name = "city")val city : String,
     @field:Json(name = "state")val state : String,

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Investodroid</string>
-    <string name="about_title">ABOUT</string>
+    <string name="about_title">About</string>
     <string name="ceo_title">CEO</string>
-    <string name="headquarters_title">HEADQUARTERS</string>
+    <string name="headquarters_title">Headquarters</string>
+    <string name="employees_title">Employees</string>
+    <string name="headquarters_text">%1$s, %2$s</string>
 </resources>

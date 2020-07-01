@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.manu.investodroid.R
+import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
 import com.manu.investodroid.model.StockProfile
@@ -32,22 +33,25 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val symbol = findViewById<TextView>(R.id.symbol)
-
         val intent : Intent = intent
         val clickedStockSymbol = intent.getStringExtra("stock_symbol")
 
-        symbol.text = clickedStockSymbol
+        if (clickedStockSymbol == null) {
+            finish()
+            return
+        }
 
-        viewModel.profileLiveData.observe(this, Observer<ViewState<StockProfile>>{viewState ->
+        viewModel.profileLiveData.observe(this, Observer<ViewState<StockProfile>>{ viewState ->
             when(viewState) {
                 is Success -> {
                     profile_progress_bar.hide()
                     val stockProfile = viewState.data
                     company_name.text = stockProfile.companyName
-                    price.text = stockProfile.price.toString()
+                    price.text = stockProfile.price.convertPriceToString()
                     ceo_name.text = stockProfile.ceo
-                    headquarters_name.text = stockProfile.city+","+stockProfile.state
+                    headquarters_name.text = getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
+                    employees.text = stockProfile.fullTimeEmployees
+                    description_text_view.text = stockProfile.description
 
                 }
                 is Error -> {

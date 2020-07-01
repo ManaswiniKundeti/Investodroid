@@ -9,3 +9,7 @@ fun View.show(){
 fun View.hide(){
     visibility = View.GONE
 }
+
+fun Float.convertPriceToString(): String {
+    return "$$this"
+}
