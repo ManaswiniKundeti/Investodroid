@@ -9,8 +9,13 @@ import com.manu.investodroid.viewstate.ViewState
 
 class ProfileActivityViewModel(private val stockProfileRepository: StockProfileRepository) : ViewModel() {
     val profileLiveData : LiveData<ViewState<StockProfile>> = stockProfileRepository.stockProfileLiveData
+    val stockLiveData : LiveData<ViewState<Stock>> = stockProfileRepository.stockLiveData
 
     fun fetchStockProfile(name :String){
         stockProfileRepository.getStockProfile(name)
+    }
+
+    fun updateStock(symbol : String){
+        stockProfileRepository.updateStock(symbol)
     }
 }

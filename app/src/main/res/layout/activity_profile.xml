@@ -17,11 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/favouritesButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Microsoft" />
@@ -163,6 +161,19 @@
             app:barrierDirection="end"
             app:constraint_referenced_ids="headquarters_title,ceo_title,employee_count_title"
             tools:layout_editor_absoluteX="411dp" />
+
+        <ImageButton
+            android:id="@+id/favouritesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="FavouritesButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/star_big_on"
+            tools:visibility="visible"
+            android:clickable="true"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

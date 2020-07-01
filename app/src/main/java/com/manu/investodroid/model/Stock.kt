@@ -9,5 +9,6 @@ data class Stock (
     @field:Json(name = "symbol") @PrimaryKey val symbol: String,
     @field:Json(name = "name") val name: String,
     @field:Json(name = "price") val price : Float,
-    @field:Json(name = "exchange") val exchange: String
+    @field:Json(name = "exchange") val exchange: String,
+    val isFavourite: Boolean = false
 )

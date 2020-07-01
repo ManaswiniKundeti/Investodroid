@@ -13,6 +13,7 @@ import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
+import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockProfile
 import com.manu.investodroid.viewmodel.ProfileActivityViewModel
 import com.manu.investodroid.viewmodel.ProfileActivityViewModelFactory
@@ -52,7 +53,11 @@ class ProfileActivity : AppCompatActivity() {
                     headquarters_name.text = getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
                     employees.text = stockProfile.fullTimeEmployees
                     description_text_view.text = stockProfile.description
-
+                    favouritesButton.setOnClickListener { item ->
+                        //update stock DB; set isFavourite = true
+                        val symbol = clickedStockSymbol
+                        viewModel.updateStock(symbol)
+                    }
                 }
                 is Error -> {
                     profile_progress_bar.hide()

@@ -4,11 +4,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/stocksListNavGraphFragment">
+    app:startDestination="@id/stocksListFragment">
 <!--    app:startDestination="@id/stocksListFragment">-->
 
     <fragment
-        android:id="@+id/stocksListNavGraphFragment"
+        android:id="@+id/stocksListFragment"
         android:name="com.manu.investodroid.view.ui.main.StocksListFragment"
-        android:label="StocksListFragment" />
+        android:label="StocksListFragment"
+        tools:layout="@layout/fragment_stocks_list">
+        <action
+            android:id="@+id/action_stocksListNavGraphFragment_to_profileActivity2"
+            app:destination="@id/profileActivity2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteStocksFragment"
+        android:name="com.manu.investodroid.view.ui.main.FavouriteStocksFragment"
+        android:label="FavouriteStocksFragment"
+        tools:layout="@layout/fragment_favourite_stocks">
+        <action
+            android:id="@+id/action_favouriteStocksFragment_to_profileActivity2"
+            app:destination="@id/profileActivity2" />
+    </fragment>
+    <activity
+        android:id="@+id/profileActivity2"
+        android:name="com.manu.investodroid.view.ui.profile.ProfileActivity"
+        android:label="ProfileActivity"
+        tools:layout="@layout/activity_profile"/>
 </navigation>
