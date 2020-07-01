@@ -16,6 +16,6 @@ class ProfileActivityViewModel(private val stockProfileRepository: StockProfileR
     }
 
     fun updateStock(symbol : String){
-        stockProfileRepository.updateStock(symbol)
+        stockProfileRepository.updateStockInDB(symbol)
     }
 }

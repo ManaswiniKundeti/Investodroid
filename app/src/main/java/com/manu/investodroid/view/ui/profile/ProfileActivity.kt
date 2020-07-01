@@ -42,15 +42,16 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
-        viewModel.profileLiveData.observe(this, Observer<ViewState<StockProfile>>{ viewState ->
-            when(viewState) {
+        val observer = Observer<ViewState<StockProfile>> { viewState ->
+            when (viewState) {
                 is Success -> {
                     profile_progress_bar.hide()
                     val stockProfile = viewState.data
                     company_name.text = stockProfile.companyName
                     price.text = stockProfile.price.convertPriceToString()
                     ceo_name.text = stockProfile.ceo
-                    headquarters_name.text = getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
+                    headquarters_name.text =
+                        getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
                     employees.text = stockProfile.fullTimeEmployees
                     description_text_view.text = stockProfile.description
                     favouritesButton.setOnClickListener { item ->
@@ -68,7 +69,9 @@ class ProfileActivity : AppCompatActivity() {
                     profile_progress_bar.show()
                 }
             }
-        })
+        }
+
+        viewModel.profileLiveData.observe(this, observer)
         viewModel.fetchStockProfile(clickedStockSymbol)
     }
 }

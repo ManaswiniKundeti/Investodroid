@@ -31,7 +31,7 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         FetchStockProfileTask(_stockProfileLiveData,investodroidService).execute(symbol)
     }
 
-    override fun updateStock(symbol: String) {
+    override fun updateStockInDB(symbol: String) {
         UpdateStockTask(stockDao).execute(symbol)
     }
 

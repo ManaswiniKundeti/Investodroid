@@ -66,7 +66,9 @@ class StocksListFragment : Fragment() {
                 }
             }
         }
+
         viewModel.stockLiveData.observe(viewLifecycleOwner, stocksListObserver)
+        viewModel.getStocks()
         return view
     }
 
