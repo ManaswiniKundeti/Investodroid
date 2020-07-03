@@ -12,7 +12,8 @@ class ProfileActivityViewModelFactory (private val context: Context) : ViewModel
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ProfileActivityViewModel::class.java)){
             return ProfileActivityViewModel(StockProfileRepository(createInvestodroidService(),
-                AppDatabase.getAppDatabase(context)!!.stockDao())) as T
+                AppDatabase.getAppDatabase(context)!!.stockDao(),
+                AppDatabase.getAppDatabase(context)!!.favStockDao())) as T
         }
         throw IllegalArgumentException("Unknown view model class")
     }

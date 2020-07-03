@@ -5,10 +5,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockProfile
 import com.manu.investodroid.network.IInvestodroidService
-import com.manu.investodroid.persistence.StockDao
+import com.manu.investodroid.persistence.FavouriteStockDao
+import com.manu.investodroid.persistencex.StockDao
 import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
@@ -16,7 +18,8 @@ import com.manu.investodroid.viewstate.ViewState
 import java.lang.Exception
 
 class StockProfileRepository(private val investodroidService: IInvestodroidService,
-                            private val stockDao: StockDao) : IStockProfileRepository{
+                             private val stockDao: StockDao,
+                             private val favouriteStockDao: FavouriteStockDao ) : IStockProfileRepository{
 
     private val TAG = StockProfileRepository::class.java.simpleName
 
@@ -31,8 +34,12 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         FetchStockProfileTask(_stockProfileLiveData,investodroidService).execute(symbol)
     }
 
-    override fun updateStockInDB(symbol: String, isFav : Boolean) {
-        UpdateStockTask(stockDao).execute(symbol, isFav.toString())
+    override fun insertFavouriteStock(symbol: FavouriteStock) {
+        InsertFavouriteStockTask(favouriteStockDao).execute(symbol)
+    }
+
+    override fun deleteFavouriteStock(symbol: FavouriteStock) {
+        DeleteFavouriteStockTask(favouriteStockDao).execute(symbol)
     }
 
     class FetchStockProfileTask( val _stockProfileLiveData : MutableLiveData<ViewState<StockProfile>>, private val investodroidService: IInvestodroidService) : AsyncTask<String, Void, StockProfile>(){
@@ -67,16 +74,32 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         }
     }
 
-    class UpdateStockTask(private val stockDao: StockDao) : AsyncTask<String, Void, Void>(){
+    class InsertFavouriteStockTask(private val favouriteStockDao: FavouriteStockDao ) : AsyncTask<FavouriteStock, Void, Void>(){
 
-        private val TAG = UpdateStockTask::class.java.simpleName
+        private val TAG = InsertFavouriteStockTask::class.java.simpleName
 
-        override fun doInBackground(vararg p0: String? ): Void? {
+        override fun doInBackground(vararg p0: FavouriteStock? ): Void? {
             try{
                 val symbol = p0[0]
-                val isFav =  p0[1]?.toBoolean()
                 if(symbol != null){
-                    stockDao.updateStock(symbol, isFav)
+                    favouriteStockDao.insertFavouriteStock(symbol)
+                }
+            }catch (e :Exception){
+                Log.e(TAG,e.message)
+            }
+            return null
+        }
+    }
+
+    class DeleteFavouriteStockTask(private val favouriteStockDao: FavouriteStockDao ) : AsyncTask<FavouriteStock, Void, Void>(){
+
+        private val TAG = InsertFavouriteStockTask::class.java.simpleName
+
+        override fun doInBackground(vararg p0: FavouriteStock? ): Void? {
+            try{
+                val symbol = p0[0]
+                if(symbol != null){
+                    favouriteStockDao.deleteFavouriteStock(symbol)
                 }
             }catch (e :Exception){
                 Log.e(TAG,e.message)

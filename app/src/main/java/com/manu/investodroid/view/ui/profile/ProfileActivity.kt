@@ -15,6 +15,7 @@ import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
+import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockProfile
 import com.manu.investodroid.viewmodel.ProfileActivityViewModel
@@ -90,7 +91,7 @@ class ProfileActivity : AppCompatActivity() {
                     finish()
                     false
                 }else{
-                    viewModel.updateStock(clickedStockSymbol, true)
+                    viewModel.insertStock(FavouriteStock(clickedStockSymbol))
                     true
                 }
             }
@@ -101,7 +102,7 @@ class ProfileActivity : AppCompatActivity() {
                     finish()
                     false
                 }else{
-                    viewModel.updateStock(clickedStockSymbol, false)
+                    viewModel.deleteStock(FavouriteStock(clickedStockSymbol))
                     true
                 }
             }

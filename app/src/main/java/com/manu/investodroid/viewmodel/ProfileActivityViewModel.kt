@@ -2,6 +2,7 @@ package com.manu.investodroid.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockProfile
 import com.manu.investodroid.repository.StockProfileRepository
@@ -15,7 +16,11 @@ class ProfileActivityViewModel(private val stockProfileRepository: StockProfileR
         stockProfileRepository.getStockProfile(name)
     }
 
-    fun updateStock(symbol : String, isFav : Boolean){
-        stockProfileRepository.updateStockInDB(symbol, isFav)
+    fun insertStock(symbol : FavouriteStock){
+        stockProfileRepository.insertFavouriteStock(symbol)
+    }
+
+    fun deleteStock(symbol : FavouriteStock){
+        stockProfileRepository.deleteFavouriteStock(symbol)
     }
 }

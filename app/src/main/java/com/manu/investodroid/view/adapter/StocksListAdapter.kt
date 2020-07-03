@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.manu.investodroid.R
+import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.view.ui.main.MainActivity
 import com.manu.investodroid.view.ui.profile.ProfileActivity

@@ -15,6 +15,6 @@ class MainActivityViewModel(private val stockListRepository: StockListRepository
     }
 
     fun getFavStocks(){
-        stockListRepository.getFavStocksListFromDb()
+        stockListRepository.getFavouriteStocks()
     }
 }

@@ -6,7 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.network.IInvestodroidService
-import com.manu.investodroid.persistence.StockDao
+import com.manu.investodroid.persistence.FavouriteStockDao
+import com.manu.investodroid.persistencex.StockDao
 import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
@@ -14,7 +15,8 @@ import com.manu.investodroid.viewstate.ViewState
 import java.lang.Exception
 
 class StockListRepository(private val investodroidService: IInvestodroidService,
-private val stockDao: StockDao) : IStockListRepository{
+                          private val stockDao: StockDao,
+                          private val favouriteStockDao: FavouriteStockDao ) : IStockListRepository{
 
     private val TAG = StockListRepository::class.java.simpleName
 
@@ -29,8 +31,8 @@ private val stockDao: StockDao) : IStockListRepository{
         FetchStockListTask(_stocksListLiveData, investodroidService, stockDao).execute()
     }
 
-    override fun getFavStocksListFromDb() {
-        FetchFavStocksTask(_stocksListLiveData,stockDao).execute()
+    override fun getFavouriteStocks() {
+        FetchFavStocksTask(_stocksListLiveData,favouriteStockDao).execute()
     }
 
     class FetchStockListTask(
@@ -74,7 +76,8 @@ private val stockDao: StockDao) : IStockListRepository{
 
     }
 
-    class FetchFavStocksTask(private val stockListLiveData : MutableLiveData<ViewState<List<Stock>>>,private val stockDao: StockDao) : AsyncTask<Void, Void, List<Stock>>(){
+    class FetchFavStocksTask(private val stockListLiveData : MutableLiveData<ViewState<List<Stock>>>,
+                             private val favouriteStockDao: FavouriteStockDao) : AsyncTask<Void, Void, List<Stock>>(){
 
         private val TAG = FetchFavStocksTask::class.java.simpleName
 
@@ -85,12 +88,13 @@ private val stockDao: StockDao) : IStockListRepository{
 
         override fun doInBackground(vararg p0: Void?): List<Stock>? {
             return try {
-                return stockDao.getfavStock(true)
+                return favouriteStockDao.getFavouriteStocks()
             } catch (e: Exception) {
                 Log.e(TAG, e.message)
                 null
             }
         }
+
         override fun onPostExecute(result: List<Stock>?) {
             super.onPostExecute(result)
             if (result == null) {

@@ -12,7 +12,7 @@ class MainActivityViewModelFactory(private val context : Context) : ViewModelPro
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(MainActivityViewModel::class.java)){
-            return MainActivityViewModel(StockListRepository(createInvestodroidService(), AppDatabase.getAppDatabase(context)!!.stockDao())) as T
+            return MainActivityViewModel(StockListRepository(createInvestodroidService(), AppDatabase.getAppDatabase(context)!!.stockDao(), AppDatabase.getAppDatabase(context)!!.favStockDao() )) as T
         }
         throw IllegalArgumentException("Unknown view model class")
     }
