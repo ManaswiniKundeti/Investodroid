@@ -35,9 +35,11 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         UpdateStockTask(stockDao).execute(symbol)
     }
 
-    class FetchStockProfileTask( val _stockProfileLiveData : MutableLiveData<ViewState<StockProfile>>,
-                                 private val investodroidService: IInvestodroidService
-                                ) : AsyncTask<String, Void, StockProfile>(){
+    override fun unFavouriteStock(symbol: String) {
+        unFavouriteStockTask(stockDao).execute(symbol)
+    }
+
+    class FetchStockProfileTask( val _stockProfileLiveData : MutableLiveData<ViewState<StockProfile>>, private val investodroidService: IInvestodroidService) : AsyncTask<String, Void, StockProfile>(){
         private val TAG = FetchStockProfileTask::class.java.simpleName
 
         override fun onPreExecute() {
@@ -78,6 +80,23 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
                 val symbol = p0[0]
                 if(symbol != null){
                     stockDao.updateStock(symbol, true)
+                }
+            }catch (e :Exception){
+                Log.e(TAG,e.message)
+            }
+            return null
+        }
+    }
+
+    class unFavouriteStockTask(private val stockDao: StockDao) : AsyncTask<String, Void, Void>(){
+
+        private val TAG = UpdateStockTask::class.java.simpleName
+
+        override fun doInBackground(vararg p0: String?): Void? {
+            try{
+                val symbol = p0[0]
+                if(symbol != null){
+                    stockDao.updateStock(symbol, false)
                 }
             }catch (e :Exception){
                 Log.e(TAG,e.message)

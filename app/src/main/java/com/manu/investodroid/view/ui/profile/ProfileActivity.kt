@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -36,7 +38,6 @@ class ProfileActivity : AppCompatActivity() {
 
         val intent : Intent = intent
         val clickedStockSymbol = intent.getStringExtra("stock_symbol")
-
         if (clickedStockSymbol == null) {
             finish()
             return
@@ -54,11 +55,11 @@ class ProfileActivity : AppCompatActivity() {
                         getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
                     employees.text = stockProfile.fullTimeEmployees
                     description_text_view.text = stockProfile.description
-                    favouritesButton.setOnClickListener { item ->
-                        //update stock DB; set isFavourite = true
-                        val symbol = clickedStockSymbol
-                        viewModel.updateStock(symbol)
-                    }
+//                    favouritesButton.setOnClickListener { item ->
+//                        //update stock DB; set isFavourite = true
+//                        val symbol = clickedStockSymbol
+//                        viewModel.updateStock(symbol)
+//                    }
                 }
                 is Error -> {
                     profile_progress_bar.hide()
@@ -73,5 +74,38 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.profileLiveData.observe(this, observer)
         viewModel.fetchStockProfile(clickedStockSymbol)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favourites_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected( item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.favouriteMenuItem ->{
+                val intent : Intent = intent
+                val clickedStockSymbol = intent.getStringExtra("stock_symbol")
+                return if (clickedStockSymbol == null) {
+                    finish()
+                    false
+                }else{
+                    viewModel.updateStock(clickedStockSymbol)
+                    true
+                }
+            }
+            R.id.unFavouriteMenuItem ->{
+                val intent : Intent = intent
+                val clickedStockSymbol = intent.getStringExtra("stock_symbol")
+                return if (clickedStockSymbol == null) {
+                    finish()
+                    false
+                }else{
+                    viewModel.unFavouriteStock(clickedStockSymbol)
+                    true
+                }
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
