@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
+import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.model.StockProfile
 import com.manu.investodroid.repository.StockProfileRepository
 import com.manu.investodroid.viewstate.ViewState
 
 class ProfileActivityViewModel(private val stockProfileRepository: StockProfileRepository) : ViewModel() {
-    val profileLiveData : LiveData<ViewState<StockProfile>> = stockProfileRepository.stockProfileLiveData
+    val detailLiveData : LiveData<ViewState<StockDetail>> = stockProfileRepository.stockProfileLiveData
     val stockLiveData : LiveData<ViewState<Stock>> = stockProfileRepository.stockLiveData
 
-    fun fetchStockProfile(name :String){
-        stockProfileRepository.getStockProfile(name)
+    fun fetchStockProfile(symbol :String){
+        stockProfileRepository.getStockProfile(symbol)
     }
 
     fun insertStock(symbol : FavouriteStock){

@@ -1,23 +1,20 @@
 package com.manu.investodroid.view.ui.profile
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
 import com.manu.investodroid.model.FavouriteStock
-import com.manu.investodroid.model.Stock
-import com.manu.investodroid.model.StockProfile
+import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.viewmodel.ProfileActivityViewModel
 import com.manu.investodroid.viewmodel.ProfileActivityViewModelFactory
 import com.manu.investodroid.viewstate.Error
@@ -44,18 +41,18 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
-        val observer = Observer<ViewState<StockProfile>> { viewState ->
+        val observer = Observer<ViewState<StockDetail>> { viewState ->
             when (viewState) {
                 is Success -> {
                     profile_progress_bar.hide()
-                    val stockProfile = viewState.data
-                    company_name.text = stockProfile.companyName
-                    price.text = stockProfile.price.convertPriceToString()
-                    ceo_name.text = stockProfile.ceo
+                    val stockDetail = viewState.data
+                    company_name.text = stockDetail.profile.companyName
+                    price.text = stockDetail.profile.price.convertPriceToString()
+                    ceo_name.text = stockDetail.profile.ceo
                     headquarters_name.text =
-                        getString(R.string.headquarters_text, stockProfile.city, stockProfile.state)
-                    employees.text = stockProfile.fullTimeEmployees
-                    description_text_view.text = stockProfile.description
+                        getString(R.string.headquarters_text, stockDetail.profile.city, stockDetail.profile.state)
+                    employees.text = stockDetail.profile.fullTimeEmployees
+                    description_text_view.text = stockDetail.profile.description
 //                    favouritesButton.setOnClickListener { item ->
 //                        //update stock DB; set isFavourite = true
 //                        val symbol = clickedStockSymbol
@@ -73,7 +70,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.profileLiveData.observe(this, observer)
+        viewModel.detailLiveData.observe(this, observer)
         viewModel.fetchStockProfile(clickedStockSymbol)
     }
 
