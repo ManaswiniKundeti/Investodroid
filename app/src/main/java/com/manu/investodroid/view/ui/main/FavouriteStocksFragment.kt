@@ -45,15 +45,15 @@ class FavouriteStocksFragment : Fragment()  {
         val favstocksListObserver = Observer<ViewState<List<Stock>>>{ viewState ->
             when(viewState) {
                 is Success -> {
-                    stocks_list_progress_bar.hide()
+                    stocks_list_progress_bar?.hide()
                     favouriteStocksListAdapter.setStocksList(viewState.data)
                 }
                 is Error -> {
-                    stocks_list_progress_bar.hide()
+                    stocks_list_progress_bar?.hide()
                     Toast.makeText(requireContext(), viewState.errMsg, Toast.LENGTH_SHORT).show()
                 }
                 is Loading -> {
-                    stocks_list_progress_bar.show()
+                    stocks_list_progress_bar?.show()
                 }
             }
         }

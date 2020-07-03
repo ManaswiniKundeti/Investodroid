@@ -6,7 +6,7 @@
         android:title="Stocks" />
 
     <item
-        android:id="@+id/stockFavouritesFragment"
+        android:id="@+id/favouriteStocksFragment"
         android:icon="@android:drawable/btn_star_big_off"
         android:title="Favourites" />
 </menu>
