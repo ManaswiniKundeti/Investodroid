@@ -3,6 +3,7 @@ package com.manu.investodroid.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.manu.investodroid.helpers.SharedPreferenceHelper
 import com.manu.investodroid.network.createInvestodroidService
 import com.manu.investodroid.persistence.AppDatabase
 import com.manu.investodroid.repository.StockListRepository
@@ -12,7 +13,9 @@ class MainActivityViewModelFactory(private val context : Context) : ViewModelPro
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(MainActivityViewModel::class.java)){
-            return MainActivityViewModel(StockListRepository(createInvestodroidService(), AppDatabase.getAppDatabase(context)!!.stockDao(), AppDatabase.getAppDatabase(context)!!.favStockDao() )) as T
+            return MainActivityViewModel(StockListRepository(createInvestodroidService(), AppDatabase.getAppDatabase(context)!!.stockDao(), AppDatabase.getAppDatabase(context)!!.favStockDao(),
+                SharedPreferenceHelper(context)
+            )) as T
         }
         throw IllegalArgumentException("Unknown view model class")
     }

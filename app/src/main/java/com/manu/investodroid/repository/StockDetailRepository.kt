@@ -2,7 +2,6 @@ package com.manu.investodroid.repository
 
 import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.manu.investodroid.helpers.SharedPreferenceHelper
@@ -17,34 +16,30 @@ import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
-import java.sql.Date
-import java.sql.Timestamp
-import java.time.LocalDateTime
-import kotlin.math.abs
 
-class StockProfileRepository(
+class StockDetailRepository(
     private val investodroidService: IInvestodroidService,
     private val stockDao: StockDao,
     private val favouriteStockDao: FavouriteStockDao,
     private val stockDetailDao: StockDetailDao,
     private val sharedPreferenceHelper: SharedPreferenceHelper
-) : IStockProfileRepository{
+) : IStockDetailRepository{
 
     companion object {
         private const val NETWORK_TIMESTAMP_KEY = "network_call_time_stamp"
     }
 
-    private val TAG = StockProfileRepository::class.java.simpleName
+    private val TAG = StockDetailRepository::class.java.simpleName
 
     //LiveData
-    private val _stockProfileLiveData : MutableLiveData<ViewState<StockDetail>> = MutableLiveData()
-    val stockProfileLiveData : LiveData<ViewState<StockDetail>> = _stockProfileLiveData
+    private val _stockDetailLiveData : MutableLiveData<ViewState<StockDetail>> = MutableLiveData()
+    val stockDetailLiveData : LiveData<ViewState<StockDetail>> = _stockDetailLiveData
 
     private val _stockLiveData : MutableLiveData<ViewState<Stock>> = MutableLiveData()
     val stockLiveData : LiveData<ViewState<Stock>> = _stockLiveData
 
     override fun getStockProfile(symbol: String) {
-        FetchStockProfileTask(_stockProfileLiveData,investodroidService,stockDetailDao, sharedPreferenceHelper).execute(symbol)
+        FetchStockProfileTask(_stockDetailLiveData,investodroidService,stockDetailDao, sharedPreferenceHelper).execute(symbol)
     }
 
     override fun insertFavouriteStock(symbol: FavouriteStock) {
@@ -55,7 +50,7 @@ class StockProfileRepository(
         DeleteFavouriteStockTask(favouriteStockDao).execute(symbol)
     }
 
-    class FetchStockProfileTask( val _stockProfileLiveData : MutableLiveData<ViewState<StockDetail>>,
+    class FetchStockProfileTask( private val _stockDetailLiveData : MutableLiveData<ViewState<StockDetail>>,
                                  private val investodroidService: IInvestodroidService,
                                  private val stockDetailDao: StockDetailDao,
                                  private val sharedPreferenceHelper: SharedPreferenceHelper) : AsyncTask<String, Void, StockDetail>(){
@@ -63,52 +58,70 @@ class StockProfileRepository(
 
         override fun onPreExecute() {
             super.onPreExecute()
-            _stockProfileLiveData.value = Loading
+            _stockDetailLiveData.value = Loading
         }
 
         override fun doInBackground(vararg p0: String?): StockDetail? {
-            val currentTimeStamp : Long = System.currentTimeMillis() / 1000
-            val twentyFourHours = 2 * 60 * 1000 //24 * 60 * 60 * 1000;
-
-            val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp + twentyFourHours)
-
-            val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
-            if(hoursPassed >= twentyFourHours){
-                return try{
-                    sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
-                    val response = investodroidService.fetchStockDetails(p0[0].toString()).execute()
-                    if(response.isSuccessful && response.body() != null){
-                        val stockDetails = response.body()
-                        if (stockDetails != null) {
-                            stockDetailDao.insertStockDetails(stockDetails)
-                            stockDetails
-                        }else{
-                            null
-                        }
+//            val currentTimeStamp : Long = System.currentTimeMillis() / 1000
+//            val twentyFourHours = 2 * 60 * 1000 //24 * 60 * 60 * 1000;
+//
+//            val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp + twentyFourHours)
+//
+//            val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
+//            if(hoursPassed >= twentyFourHours){
+//                return try{
+//                    sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
+//                    val response = investodroidService.fetchStockDetails(p0[0].toString()).execute()
+//                    if(response.isSuccessful && response.body() != null){
+//                        val stockDetails = response.body()
+//                        if (stockDetails != null) {
+//                            stockDetailDao.insertStockDetails(stockDetails)
+//                            stockDetails
+//                        }else{
+//                            null
+//                        }
+//                    }else{
+//                        null
+//                    }
+//                }catch (e :Exception){
+//                    Log.e(TAG,e.message)
+//                    null
+//                }
+//            }else{
+//                //Fetch details from DB
+//                return try{
+//                    stockDetailDao.getStockDetails(p0[0].toString())
+//                }catch (e :Exception){
+//                    Log.e(TAG,e.message)
+//                    null
+//                }
+//            }
+            return try{
+                //sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
+                val response = investodroidService.fetchStockDetails(p0[0].toString()).execute()
+                if(response.isSuccessful && response.body() != null){
+                    val stockDetails = response.body()
+                    if (stockDetails != null) {
+                        stockDetailDao.insertStockDetails(stockDetails)
+                        stockDetails
                     }else{
                         null
                     }
-                }catch (e :Exception){
-                    Log.e(TAG,e.message)
+                }else{
                     null
                 }
-            }else{
-                //Fetch details from DB
-                return try{
-                    stockDetailDao.getStockDetails(p0[0].toString())
-                }catch (e :Exception){
-                    Log.e(TAG,e.message)
-                    null
-                }
+            }catch (e :Exception){
+                Log.e(TAG,e.message)
+                null
             }
         }
 
         override fun onPostExecute(result: StockDetail?) {
             super.onPostExecute(result)
             if (result == null) {
-                _stockProfileLiveData.value = Error("Error fetching stock details")
+                _stockDetailLiveData.value = Error("Error fetching stock details")
             } else {
-                _stockProfileLiveData.value = Success(result)
+                _stockDetailLiveData.value = Success(result)
             }
         }
     }
