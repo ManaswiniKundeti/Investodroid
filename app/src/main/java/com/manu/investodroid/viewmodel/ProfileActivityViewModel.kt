@@ -15,10 +15,7 @@ class ProfileActivityViewModel(private val stockProfileRepository: StockProfileR
         stockProfileRepository.getStockProfile(name)
     }
 
-    fun updateStock(symbol : String){
-        stockProfileRepository.updateStockInDB(symbol)
-    }
-    fun unFavouriteStock(symbol : String){
-        stockProfileRepository.unFavouriteStock(symbol)
+    fun updateStock(symbol : String, isFav : Boolean){
+        stockProfileRepository.updateStockInDB(symbol, isFav)
     }
 }

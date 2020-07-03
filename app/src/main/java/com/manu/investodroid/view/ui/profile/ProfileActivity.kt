@@ -90,7 +90,7 @@ class ProfileActivity : AppCompatActivity() {
                     finish()
                     false
                 }else{
-                    viewModel.updateStock(clickedStockSymbol)
+                    viewModel.updateStock(clickedStockSymbol, true)
                     true
                 }
             }
@@ -101,7 +101,7 @@ class ProfileActivity : AppCompatActivity() {
                     finish()
                     false
                 }else{
-                    viewModel.unFavouriteStock(clickedStockSymbol)
+                    viewModel.updateStock(clickedStockSymbol, false)
                     true
                 }
             }

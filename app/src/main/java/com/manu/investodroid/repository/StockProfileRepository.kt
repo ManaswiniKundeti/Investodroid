@@ -31,12 +31,8 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         FetchStockProfileTask(_stockProfileLiveData,investodroidService).execute(symbol)
     }
 
-    override fun updateStockInDB(symbol: String) {
-        UpdateStockTask(stockDao).execute(symbol)
-    }
-
-    override fun unFavouriteStock(symbol: String) {
-        unFavouriteStockTask(stockDao).execute(symbol)
+    override fun updateStockInDB(symbol: String, isFav : Boolean) {
+        UpdateStockTask(stockDao).execute(symbol, isFav.toString())
     }
 
     class FetchStockProfileTask( val _stockProfileLiveData : MutableLiveData<ViewState<StockProfile>>, private val investodroidService: IInvestodroidService) : AsyncTask<String, Void, StockProfile>(){
@@ -75,11 +71,12 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
 
         private val TAG = UpdateStockTask::class.java.simpleName
 
-        override fun doInBackground(vararg p0: String?): Void? {
+        override fun doInBackground(vararg p0: String? ): Void? {
             try{
                 val symbol = p0[0]
+                val isFav =  p0[1]?.toBoolean()
                 if(symbol != null){
-                    stockDao.updateStock(symbol, true)
+                    stockDao.updateStock(symbol, isFav)
                 }
             }catch (e :Exception){
                 Log.e(TAG,e.message)
@@ -88,20 +85,4 @@ class StockProfileRepository(private val investodroidService: IInvestodroidServi
         }
     }
 
-    class unFavouriteStockTask(private val stockDao: StockDao) : AsyncTask<String, Void, Void>(){
-
-        private val TAG = UpdateStockTask::class.java.simpleName
-
-        override fun doInBackground(vararg p0: String?): Void? {
-            try{
-                val symbol = p0[0]
-                if(symbol != null){
-                    stockDao.updateStock(symbol, false)
-                }
-            }catch (e :Exception){
-                Log.e(TAG,e.message)
-            }
-            return null
-        }
-    }
 }
