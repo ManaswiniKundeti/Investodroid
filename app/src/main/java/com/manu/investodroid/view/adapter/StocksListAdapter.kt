@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.manu.investodroid.R
+import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.view.ui.main.MainActivity
@@ -17,7 +18,7 @@ class StocksListItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemVi
     fun bindView(stockModel : Stock){
         itemView.stock_name.text = stockModel.name
         itemView.stock_symbol.text = stockModel.symbol
-        itemView.stock_price.text = stockModel.price.toString()
+        itemView.stock_price.text = stockModel.price.convertPriceToString()
     }
 }
 

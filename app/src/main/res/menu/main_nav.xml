@@ -2,11 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/stocksListFragment"
-        android:icon="@android:drawable/ic_input_get"
+        android:icon="@drawable/ic_list"
         android:title="Stocks" />
 
     <item
         android:id="@+id/favouriteStocksFragment"
-        android:icon="@android:drawable/btn_star_big_off"
-        android:title="Favourites" />
+        android:icon="@drawable/ic_favourite"
+        android:title="Favourites"
+        />
 </menu>
