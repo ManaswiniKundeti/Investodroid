@@ -16,7 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_stock"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0"
+        tools:visibility="visible"/>
 
     <ProgressBar
         android:id="@+id/fav_stocks_progress_bar"
@@ -28,6 +29,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/empty_state_image_view"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.397"
+        app:srcCompat="@drawable/ic_error_outline_black"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/empty_state_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:text="@string/favorites_empty_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fav_stocks_progress_bar"
+        android:textSize="20sp"
+        android:textAlignment="center"
         android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

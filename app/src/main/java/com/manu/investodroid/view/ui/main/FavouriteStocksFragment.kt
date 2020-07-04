@@ -21,6 +21,7 @@ import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
+import kotlinx.android.synthetic.main.fragment_favourite_stocks.*
 import kotlinx.android.synthetic.main.fragment_stocks_list.*
 
 class FavouriteStocksFragment : Fragment()  {
@@ -46,7 +47,17 @@ class FavouriteStocksFragment : Fragment()  {
             when(viewState) {
                 is Success -> {
                     stocks_list_progress_bar?.hide()
-                    favouriteStocksListAdapter.setStocksList(viewState.data)
+                    val listOfStocks = viewState.data
+                    if (listOfStocks.isEmpty()) {
+                        empty_state_image_view.show()
+                        empty_state_text_view.show()
+                        favouriteStocksList.hide()
+                    } else {
+                        empty_state_image_view.hide()
+                        empty_state_text_view.hide()
+                        favouriteStocksList.show()
+                        favouriteStocksListAdapter.setStocksList(listOfStocks)
+                    }
                 }
                 is Error -> {
                     stocks_list_progress_bar?.hide()
