@@ -5,4 +5,9 @@
     <string name="headquarters_title">Headquarters</string>
     <string name="employees_title">Employees</string>
     <string name="headquarters_text">%1$s, %2$s</string>
+
+    <string name="menu_favorite">Add To Favorites</string>
+    <string name="menu_unfavorite">Remove from Favorites</string>
+    <string name="menu_stock_favorited">%1$s has been added to your favorites!</string>
+    <string name="menu_stock_unfavorited">%1$s has been removed from your favorites!</string>
 </resources>

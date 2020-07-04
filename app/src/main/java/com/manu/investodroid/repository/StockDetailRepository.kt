@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.manu.investodroid.helpers.SharedPreferenceHelper
 import com.manu.investodroid.model.FavouriteStock
-import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.network.IInvestodroidService
 import com.manu.investodroid.persistence.FavouriteStockDao
@@ -25,35 +24,35 @@ class StockDetailRepository(
     private val sharedPreferenceHelper: SharedPreferenceHelper
 ) : IStockDetailRepository{
 
-    companion object {
-        private const val NETWORK_TIMESTAMP_KEY = "network_call_time_stamp"
-    }
-
     private val TAG = StockDetailRepository::class.java.simpleName
 
     //LiveData
     private val _stockDetailLiveData : MutableLiveData<ViewState<StockDetail>> = MutableLiveData()
     val stockDetailLiveData : LiveData<ViewState<StockDetail>> = _stockDetailLiveData
 
-    private val _stockLiveData : MutableLiveData<ViewState<Stock>> = MutableLiveData()
-    val stockLiveData : LiveData<ViewState<Stock>> = _stockLiveData
+    private val _isFavLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFavLiveData: LiveData<Boolean> = _isFavLiveData
 
     override fun getStockProfile(symbol: String) {
         FetchStockProfileTask(_stockDetailLiveData,investodroidService,stockDetailDao, sharedPreferenceHelper).execute(symbol)
     }
 
-    override fun insertFavouriteStock(symbol: FavouriteStock) {
-        InsertFavouriteStockTask(favouriteStockDao).execute(symbol)
+    override fun insertFavouriteStock(symbol: String) {
+        InsertFavouriteStockTask(favouriteStockDao).execute(FavouriteStock(symbol))
     }
 
-    override fun deleteFavouriteStock(symbol: FavouriteStock) {
-        DeleteFavouriteStockTask(favouriteStockDao).execute(symbol)
+    override fun deleteFavouriteStock(symbol: String) {
+        DeleteFavouriteStockTask(favouriteStockDao).execute(FavouriteStock(symbol))
     }
 
-    class FetchStockProfileTask( private val _stockDetailLiveData : MutableLiveData<ViewState<StockDetail>>,
-                                 private val investodroidService: IInvestodroidService,
-                                 private val stockDetailDao: StockDetailDao,
-                                 private val sharedPreferenceHelper: SharedPreferenceHelper) : AsyncTask<String, Void, StockDetail>(){
+    override fun isStockFavorite(symbol: String) {
+        IsFavoriteTask(favouriteStockDao, _isFavLiveData).execute(symbol)
+    }
+
+    class FetchStockProfileTask(private val _stockDetailLiveData : MutableLiveData<ViewState<StockDetail>>,
+                                private val investodroidService: IInvestodroidService,
+                                private val stockDetailDao: StockDetailDao,
+                                private val sharedPreferenceHelper: SharedPreferenceHelper) : AsyncTask<String, Void, StockDetail>(){
         private val TAG = FetchStockProfileTask::class.java.simpleName
 
         override fun onPreExecute() {
@@ -62,42 +61,7 @@ class StockDetailRepository(
         }
 
         override fun doInBackground(vararg p0: String?): StockDetail? {
-//            val currentTimeStamp : Long = System.currentTimeMillis() / 1000
-//            val twentyFourHours = 2 * 60 * 1000 //24 * 60 * 60 * 1000;
-//
-//            val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp + twentyFourHours)
-//
-//            val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
-//            if(hoursPassed >= twentyFourHours){
-//                return try{
-//                    sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
-//                    val response = investodroidService.fetchStockDetails(p0[0].toString()).execute()
-//                    if(response.isSuccessful && response.body() != null){
-//                        val stockDetails = response.body()
-//                        if (stockDetails != null) {
-//                            stockDetailDao.insertStockDetails(stockDetails)
-//                            stockDetails
-//                        }else{
-//                            null
-//                        }
-//                    }else{
-//                        null
-//                    }
-//                }catch (e :Exception){
-//                    Log.e(TAG,e.message)
-//                    null
-//                }
-//            }else{
-//                //Fetch details from DB
-//                return try{
-//                    stockDetailDao.getStockDetails(p0[0].toString())
-//                }catch (e :Exception){
-//                    Log.e(TAG,e.message)
-//                    null
-//                }
-//            }
             return try{
-                //sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
                 val response = investodroidService.fetchStockDetails(p0[0].toString()).execute()
                 if(response.isSuccessful && response.body() != null){
                     val stockDetails = response.body()
@@ -158,6 +122,19 @@ class StockDetailRepository(
             }
             return null
         }
+    }
+
+    class IsFavoriteTask(private val favouriteStockDao: FavouriteStockDao, private val _isFavLiveData: MutableLiveData<Boolean>) : AsyncTask<String, Void, Boolean>() {
+
+        override fun doInBackground(vararg args: String): Boolean {
+            val favouriteStock = favouriteStockDao.getFavoriteStock(args[0])
+            return favouriteStock.isNotEmpty()
+        }
+
+        override fun onPostExecute(result: Boolean) {
+            _isFavLiveData.value = result
+        }
+
     }
 
 }

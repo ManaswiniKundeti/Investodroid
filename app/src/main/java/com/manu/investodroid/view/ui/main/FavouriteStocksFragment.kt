@@ -58,7 +58,11 @@ class FavouriteStocksFragment : Fragment()  {
             }
         }
         viewModel.stockLiveData.observe(viewLifecycleOwner, favstocksListObserver)
-        viewModel.getFavStocks()
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFavStocks()
     }
 }

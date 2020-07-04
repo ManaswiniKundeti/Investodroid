@@ -10,17 +10,21 @@ import com.manu.investodroid.viewstate.ViewState
 
 class ProfileActivityViewModel(private val stockDetailRepository: StockDetailRepository) : ViewModel() {
     val detailLiveData : LiveData<ViewState<StockDetail>> = stockDetailRepository.stockDetailLiveData
-    val stockLiveData : LiveData<ViewState<Stock>> = stockDetailRepository.stockLiveData
+    val isFavLiveData = stockDetailRepository.isFavLiveData
 
     fun fetchStockProfile(symbol :String){
         stockDetailRepository.getStockProfile(symbol)
     }
 
-    fun insertStock(symbol : FavouriteStock){
+    fun insertStock(symbol : String){
         stockDetailRepository.insertFavouriteStock(symbol)
     }
 
-    fun deleteStock(symbol : FavouriteStock){
+    fun deleteStock(symbol : String){
         stockDetailRepository.deleteFavouriteStock(symbol)
+    }
+
+    fun isStockFavorite(symbol: String) {
+        stockDetailRepository.isStockFavorite(symbol)
     }
 }

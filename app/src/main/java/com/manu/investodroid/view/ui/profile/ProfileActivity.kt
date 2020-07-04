@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
@@ -30,16 +29,26 @@ class ProfileActivity : AppCompatActivity() {
         viewmodelFactory
     }
 
+    private lateinit var clickedStockSymbol: String
+    private var isFavorite: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         val intent : Intent = intent
-        val clickedStockSymbol = intent.getStringExtra("stock_symbol")
-        if (clickedStockSymbol == null) {
+        clickedStockSymbol = intent.getStringExtra("stock_symbol") ?: ""
+
+        if (clickedStockSymbol.isEmpty()) {
             finish()
             return
         }
+
+        viewModel.isFavLiveData.observe(this, Observer<Boolean> { result ->
+            isFavorite = result
+            invalidateOptionsMenu()
+        })
+        viewModel.isStockFavorite(clickedStockSymbol)
 
         val observer = Observer<ViewState<StockDetail>> { viewState ->
             when (viewState) {
@@ -69,39 +78,38 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         }
-
         viewModel.detailLiveData.observe(this, observer)
         viewModel.fetchStockProfile(clickedStockSymbol)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.favourites_menu,menu)
+        menuInflater.inflate(R.menu.menu_profile_activity,menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val menuItem = menu?.findItem(R.id.favouriteMenuItem)
+        menuItem?.title = if (isFavorite) getString(R.string.menu_unfavorite) else getString(R.string.menu_favorite)
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected( item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.favouriteMenuItem ->{
-                val intent : Intent = intent
-                val clickedStockSymbol = intent.getStringExtra("stock_symbol")
-                return if (clickedStockSymbol == null) {
-                    finish()
-                    false
-                }else{
-                    viewModel.insertStock(FavouriteStock(clickedStockSymbol))
-                    true
+                if (isFavorite) {
+                    viewModel.deleteStock(clickedStockSymbol)
+                    Toast.makeText(this,
+                        getString(R.string.menu_stock_unfavorited, clickedStockSymbol),
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.insertStock(clickedStockSymbol)
+                    Toast.makeText(this,
+                        getString(R.string.menu_stock_favorited, clickedStockSymbol),
+                        Toast.LENGTH_SHORT).show()
                 }
-            }
-            R.id.unFavouriteMenuItem ->{
-                val intent : Intent = intent
-                val clickedStockSymbol = intent.getStringExtra("stock_symbol")
-                return if (clickedStockSymbol == null) {
-                    finish()
-                    false
-                }else{
-                    viewModel.deleteStock(FavouriteStock(clickedStockSymbol))
-                    true
-                }
+                viewModel.isStockFavorite(clickedStockSymbol)
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }

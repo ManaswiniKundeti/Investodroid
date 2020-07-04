@@ -6,6 +6,7 @@ interface IStockDetailRepository {
     fun getStockProfile(symbol: String)
 
 
-    fun insertFavouriteStock(symbol: FavouriteStock)
-    fun deleteFavouriteStock(symbol: FavouriteStock)
+    fun insertFavouriteStock(symbol: String)
+    fun deleteFavouriteStock(symbol: String)
+    fun isStockFavorite(symbol: String)
 }
