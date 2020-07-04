@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/stocksListFragment"
-        android:icon="@drawable/ic_list"
-        android:title="Stocks" />
+        android:icon="@drawable/ic_stock_list"
+        android:title="Stocks"
+        />
 
     <item
         android:id="@+id/favouriteStocksFragment"
-        android:icon="@drawable/ic_favourite"
-        android:title="Favourites"
-        />
+        android:icon="@drawable/ic_stock_fav"
+        android:title="Favourites" />
 </menu>

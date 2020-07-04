@@ -13,4 +13,5 @@
     <color name="imageBackgroundTint">#C3C3C3</color>
 
     <color name="red">#B22328</color>
+    <color name="nav_bar_item_unchecked">@color/textColor</color>
 </resources>

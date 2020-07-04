@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
@@ -12,6 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.manu.investodroid.R
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var toolbar :ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -19,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_container)
 
+        toolbar = supportActionBar!!
         //set bottom navigation view
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)
     }

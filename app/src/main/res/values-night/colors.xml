@@ -10,4 +10,7 @@
     <color name="article_background">#0DFFFFFF</color>
 
     <color name="imageBackgroundTint">#006064</color>
+
+    <color name="red">#B22328</color>
+    <color name="nav_bar_item_unchecked">@android:color/white</color>
 </resources>
