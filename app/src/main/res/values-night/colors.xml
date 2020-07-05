@@ -8,7 +8,7 @@
     <color name="bulbColor">@android:color/white</color>
 
     <color name="article_background">#0DFFFFFF</color>
-
+<!--    <color name="article_background">#000</color>-->
     <color name="imageBackgroundTint">#006064</color>
 
     <color name="red">#B22328</color>

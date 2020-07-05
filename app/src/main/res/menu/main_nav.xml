@@ -4,11 +4,11 @@
     <item
         android:id="@+id/stocksListFragment"
         android:icon="@drawable/ic_stock_list"
-        android:title="Stocks"
+        android:title="@string/main_nav_stocks_title"
         />
 
     <item
         android:id="@+id/favouriteStocksFragment"
         android:icon="@drawable/ic_stock_fav"
-        android:title="Favourites" />
+        android:title="@string/main_nav_favourites_title" />
 </menu>

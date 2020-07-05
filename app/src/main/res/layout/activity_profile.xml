@@ -18,8 +18,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textSize="28sp"
                 android:textStyle="bold"
+                android:fontFamily="sans-serif-smallcaps"
                 android:textColor="@color/textColor"
                 android:maxLines="1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +36,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/red"
-            android:textSize="30sp"
+            android:fontFamily="sans-serif"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +64,9 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/price">
+                app:layout_constraintTop_toBottomOf="@id/price"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/article_background">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -73,14 +77,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:layout_marginTop="32dp"
+                                android:layout_marginTop="16dp"
                                 android:text="@string/about_title"
-                                android:textSize="25sp"
+                                android:fontFamily="sans-serif"
+                                android:textSize="20sp"
                                 android:textColor="@color/textColor"
                                 android:textStyle="bold"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="ABOUT" />
+                                tools:text="ABOUT"
+                                android:visibility="gone"
+                                />
 
                             <TextView
                                 android:id="@+id/ceo_title"
@@ -89,11 +96,13 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="24dp"
                                 android:text="@string/ceo_title"
+                                android:fontFamily="sans-serif"
                                 android:textColor="@color/textColor"
                                 android:textSize="20sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/about_text_view"
-                                tools:text="CEO" />
+                                tools:text="CEO"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/ceo_name"
@@ -102,12 +111,15 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_marginTop="24dp"
                                 android:layout_marginEnd="4dp"
+                                android:fontFamily="sans-serif"
                                 android:textSize="20sp"
+                                android:maxLines="1"
                                 android:textColor="@color/textColor"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/barrier"
                                 app:layout_constraintTop_toBottomOf="@+id/about_text_view"
-                                tools:text="SATYA NADELLA" />
+                                tools:text="SATYA NADELLA"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/headquarters_title"
@@ -116,11 +128,13 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="16dp"
                                 android:text="@string/headquarters_title"
+                                android:fontFamily="sans-serif"
                                 android:textSize="20sp"
                                 android:textColor="@color/textColor"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/ceo_title"
-                                tools:text="HEADQUARTERS" />
+                                tools:text="HEADQUARTERS"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/headquarters_name"
@@ -129,12 +143,14 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_marginTop="16dp"
                                 android:layout_marginEnd="4dp"
+                                android:fontFamily="sans-serif"
                                 android:textSize="20sp"
                                 android:textColor="@color/textColor"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/barrier"
                                 app:layout_constraintTop_toBottomOf="@+id/ceo_name"
-                                tools:text="MountainView,CA" />
+                                tools:text="MountainView,CA"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/employee_count_title"
@@ -143,13 +159,15 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="16dp"
                                 android:layout_marginBottom="16dp"
+                                android:fontFamily="sans-serif"
                                 android:text="@string/employees_title"
                                 android:textColor="@color/textColor"
                                 android:textSize="20sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/headquarters_title"
-                                tools:text="EMPLOYEES" />
+                                tools:text="EMPLOYEES"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/employees"
@@ -159,13 +177,15 @@
                                 android:layout_marginTop="16dp"
                                 android:layout_marginEnd="4dp"
                                 android:layout_marginBottom="16dp"
+                                android:fontFamily="sans-serif"
                                 android:textSize="20sp"
                                 android:textColor="@color/textColor"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/barrier"
                                 app:layout_constraintTop_toBottomOf="@+id/headquarters_name"
-                                tools:text="10,000" />
+                                tools:text="10,000"
+                                android:visibility="gone"/>
 
                             <androidx.constraintlayout.widget.Barrier
                                 android:id="@+id/barrier"
@@ -187,7 +207,9 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/about_card_view">
+                app:layout_constraintTop_toBottomOf="@id/about_card_view"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/article_background">
 
                     <TextView
                         android:id="@+id/description_text_view"
@@ -205,7 +227,10 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/about_card_view"
                         tools:text="Description text"
-                        android:textAlignment="center"/>
+                        android:maxLines="10"
+                        android:ellipsize="end"
+                        android:layout_gravity="left"
+                        android:visibility="gone"/>
 
             </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

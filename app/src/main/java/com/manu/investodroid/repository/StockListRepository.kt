@@ -56,7 +56,7 @@ class StockListRepository(private val investodroidService: IInvestodroidService,
 
         override fun doInBackground(vararg p0: Void): List<Stock>? {
             val currentTimeStamp : Long = System.currentTimeMillis() / 1000
-            val twentyFourHours = 2 * 60 * 1000 //24 * 60 * 60 * 1000;
+            val twentyFourHours = 24 * 60 * 1000 //24 * 60 * 60 * 1000;
 
             val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(StockListRepository.NETWORK_TIMESTAMP_KEY, 0L)
 

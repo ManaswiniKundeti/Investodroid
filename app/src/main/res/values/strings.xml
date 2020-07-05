@@ -11,4 +11,7 @@
     <string name="menu_stock_favorited">%1$s has been added to your favorites!</string>
     <string name="menu_stock_unfavorited">%1$s has been removed from your favorites!</string>
     <string name="favorites_empty_text">You have not added any favorites yet! Try favoriting a stock from the detail page.</string>
+    <string name="main_nav_stocks_title">Stocks</string>
+    <string name="main_nav_favourites_title">Favourites</string>
+    <string name="main_menu_lightbulb_theme">Theme</string>
 </resources>

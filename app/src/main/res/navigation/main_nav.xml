@@ -5,7 +5,6 @@
     android:id="@+id/main_nav"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/stocksListFragment">
-<!--    app:startDestination="@id/stocksListFragment">-->
 
     <fragment
         android:id="@+id/stocksListFragment"
