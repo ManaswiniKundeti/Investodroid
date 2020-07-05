@@ -3,9 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
     compileSdkVersion 29
 
@@ -18,7 +15,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String","FINANCIAL_MODELING_PREP_API_KEY","\"${localProperties["FINANCIAL_MODELING_PREP_API_KEY"]}\"")
+        buildConfigField("String","FINANCIAL_MODELING_PREP_API_KEY","\"04586a387930113668f282e722d310c5\"")
     }
 
     buildTypes {
