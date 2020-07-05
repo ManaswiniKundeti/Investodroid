@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 class StockListRepository(private val investodroidService: IInvestodroidService,
                           private val stockDao: StockDao,
                           private val favouriteStockDao: FavouriteStockDao,
-                          private val sharedPreferenceHelper: SharedPreferenceHelper) : IStockListRepository{
+                          private val sharedPreferenceHelper: SharedPreferenceHelper) : IStockListRepository {
     companion object {
         private const val NETWORK_TIMESTAMP_KEY = "network_call_time_stamp"
         private const val TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000
@@ -35,48 +35,49 @@ class StockListRepository(private val investodroidService: IInvestodroidService,
             return
         }
 
-        withContext(Dispatchers.IO) {
-            _stocksListLiveData.postValue(Loading)
+        Log.d(TAG, "Running on ${Thread.currentThread().name}")
+        //_stocksListLiveData.postValue(Loading)
+        _stocksListLiveData.value = Loading
 
-            val currentTimeStamp: Long = System.currentTimeMillis() / 1000
+        val currentTimeStamp: Long = System.currentTimeMillis() / 1000
 
-            val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, 0L)
+        val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, 0L)
 
-            val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
+        val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
 
-            try {
-                if (hoursPassed >= TWENTY_FOUR_HOURS) {
-                    sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
-                    val response = investodroidService.fetchStockList()
-                    if (response.isSuccessful && response.body() != null) {
-                        val stockList = response.body()!!
-                        stockDao.insertStocks(stockList)
-                        _stocksListLiveData.postValue(Success(stockList))
-                    } else {
-                        _stocksListLiveData.postValue(Error("There was an error fetching stock list"))
-                    }
+        try {
+            if (hoursPassed >= TWENTY_FOUR_HOURS) {
+                sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
+                val response = investodroidService.fetchStockList()
+                Log.d(TAG, "Running on ${Thread.currentThread().name}")
+                if (response.isSuccessful && response.body() != null) {
+                    val stockList = response.body()!!
+                    stockDao.insertStocks(stockList)
+                    //_stocksListLiveData.postValue(Success(stockList))
+                    _stocksListLiveData.value = Success(stockList)
+
                 } else {
-                    val stockList = stockDao.getStockList()
-                    _stocksListLiveData.postValue(Success(stockList))//Fetch details from DB
+                    _stocksListLiveData.value = Error("There was an error fetching stock list")
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "There was an error fetching stock list", e)
-                _stocksListLiveData.postValue(Error("There was an error fetching stock list"))
+            } else {
+                val stockList = stockDao.getStockList()
+                Log.d(TAG, "Running on ${Thread.currentThread().name}")
+                _stocksListLiveData.value = Success(stockList)
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "There was an error fetching stock list", e)
+            _stocksListLiveData.value = Error("There was an error fetching stock list")
         }
     }
 
     override suspend fun getFavouriteStocks() {
-        withContext(Dispatchers.IO){
-            _stocksListLiveData.postValue(Loading)
-            try {
-                val favStocksList = favouriteStockDao.getFavouriteStocks()
-                _stocksListLiveData.postValue(Success(favStocksList))
-            } catch (e: Exception) {
-                Log.e(TAG, "There was an error fetching favourite stocks", e)
-                _stocksListLiveData.postValue(Error("There was an error fetching favourite stocks"))
-            }
+        _stocksListLiveData.value = Loading
+        try {
+            val favStocksList = favouriteStockDao.getFavouriteStocks()
+            _stocksListLiveData.value = Success(favStocksList)
+        } catch (e: Exception) {
+            Log.e(TAG, "There was an error fetching favourite stocks", e)
+            _stocksListLiveData.value = Error("There was an error fetching stock list")
         }
-
     }
 }
