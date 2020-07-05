@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockDetail
-import com.manu.investodroid.persistencex.StockDao
+import com.manu.investodroid.persistence.StockDao
 
 @Database(entities = [Stock::class, FavouriteStock::class, StockDetail::class], version = 1)
 @TypeConverters(value = [StockProfileConverter::class])

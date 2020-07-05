@@ -10,7 +10,7 @@ import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.network.IInvestodroidService
 import com.manu.investodroid.persistence.FavouriteStockDao
 import com.manu.investodroid.persistence.StockDetailDao
-import com.manu.investodroid.persistencex.StockDao
+import com.manu.investodroid.persistence.StockDao
 import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
@@ -18,7 +18,6 @@ import com.manu.investodroid.viewstate.ViewState
 
 class StockDetailRepository(
     private val investodroidService: IInvestodroidService,
-    private val stockDao: StockDao,
     private val favouriteStockDao: FavouriteStockDao,
     private val stockDetailDao: StockDetailDao,
     private val sharedPreferenceHelper: SharedPreferenceHelper

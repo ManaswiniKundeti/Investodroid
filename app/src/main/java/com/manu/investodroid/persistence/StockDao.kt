@@ -1,17 +1,18 @@
-package com.manu.investodroid.persistencex
+package com.manu.investodroid.persistence
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.manu.investodroid.model.Stock
-import com.manu.investodroid.model.StockDetail
 
 @Dao
 interface StockDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertStocks(stocks: List<Stock>)
+    suspend fun insertStocks(stocks: List<Stock>)
 
     @Query("SELECT * FROM Stock")
-    fun getStockList() : List<Stock>
-
+    suspend fun getStockList() : List<Stock>
 
 }

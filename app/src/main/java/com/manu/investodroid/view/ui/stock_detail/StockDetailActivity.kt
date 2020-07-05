@@ -1,4 +1,4 @@
-package com.manu.investodroid.view.ui.profile
+package com.manu.investodroid.view.ui.stock_detail
 
 import android.content.Intent
 import android.os.Bundle

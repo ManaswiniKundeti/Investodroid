@@ -5,6 +5,7 @@ import com.manu.investodroid.model.Stock
 import com.manu.investodroid.model.StockDetail
 import okhttp3.OkHttpClient
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -28,7 +29,7 @@ fun createInvestodroidService() : IInvestodroidService {
 interface IInvestodroidService {
 
     @GET("stock/list?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
-    fun fetchStockList() : Call<List<Stock>>
+    suspend fun fetchStockList() : Response<List<Stock>>
 
     @GET("company/profile/{symbol}?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
     fun fetchStockDetails(

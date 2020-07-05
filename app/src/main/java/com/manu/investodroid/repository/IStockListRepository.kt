@@ -1,7 +1,7 @@
 package com.manu.investodroid.repository
 
 interface IStockListRepository {
-    fun getStocksList()
+    suspend fun getStocksList()
 
     fun getFavouriteStocks()
 }

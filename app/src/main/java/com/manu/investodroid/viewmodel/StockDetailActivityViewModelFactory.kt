@@ -13,7 +13,6 @@ class StockDetailActivityViewModelFactory (private val context: Context) : ViewM
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(StockDetailActivityViewModel::class.java)){
             return StockDetailActivityViewModel(StockDetailRepository(createInvestodroidService(),
-                AppDatabase.getAppDatabase(context).stockDao(),
                 AppDatabase.getAppDatabase(context).favStockDao(),
                 AppDatabase.getAppDatabase(context).stockDetailDao(),
                 SharedPreferenceHelper(context)

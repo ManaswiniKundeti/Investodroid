@@ -9,7 +9,7 @@ import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.view.ui.main.MainActivity
-import com.manu.investodroid.view.ui.profile.StockDetailActivity
+import com.manu.investodroid.view.ui.stock_detail.StockDetailActivity
 import kotlinx.android.synthetic.main.item_stock.view.*
 
 class StocksListItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
