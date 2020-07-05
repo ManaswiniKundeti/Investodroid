@@ -1,9 +1,12 @@
 package com.manu.investodroid.view.ui.main
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -69,6 +72,28 @@ class StocksListFragment : Fragment() {
 
         viewModel.stockLiveData.observe(viewLifecycleOwner, stocksListObserver)
         viewModel.getStocks()
+
+        val searchEditText = view.findViewById<EditText>(R.id.search_edit_text)
+        searchEditText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(editableText: Editable?) {
+                if (editableText == null) {
+                    return
+                }
+
+                val filterText = editableText.toString().trim()
+                viewModel.filterStockList(filterText)
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                /* no op */
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                /* no op */
+            }
+
+        })
+
         return view
     }
 

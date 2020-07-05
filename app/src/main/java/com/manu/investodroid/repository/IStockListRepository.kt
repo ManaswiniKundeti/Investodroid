@@ -1,7 +1,9 @@
 package com.manu.investodroid.repository
 
-interface IStockListRepository {
-    suspend fun getStocksList()
+import com.manu.investodroid.model.Stock
 
-    suspend fun getFavouriteStocks()
+interface IStockListRepository {
+    suspend fun getStocksList(): List<Stock>?
+
+    suspend fun getFavouriteStocks(): List<Stock>?
 }
