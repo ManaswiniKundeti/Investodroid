@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.manu.investodroid.R
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
@@ -30,7 +31,7 @@ import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
 import kotlinx.android.synthetic.main.fragment_stocks_list.*
 
-class StocksListFragment : Fragment() {
+class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val viewmodelFactory by lazy { MainActivityViewModelFactory(requireContext()) }
     private val viewModel: MainActivityViewModel by viewModels {
@@ -46,6 +47,9 @@ class StocksListFragment : Fragment() {
         //inflate layour for the fragment
         val view = inflater.inflate(R.layout.fragment_stocks_list, container, false)
 
+        val stockRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.stock_refresh_layout)
+        stockRefreshLayout.setOnRefreshListener(this)
+
         //display & update recycler view
         val stocksList: RecyclerView = view.findViewById(R.id.stocksList)
         stocksList.layoutManager = LinearLayoutManager(requireContext())
@@ -57,15 +61,15 @@ class StocksListFragment : Fragment() {
         val stocksListObserver = Observer<ViewState<List<Stock>>>{viewState ->
             when(viewState) {
                 is Success -> {
-                    stocks_list_progress_bar.hide()
+                    stockRefreshLayout.isRefreshing = false
                     stocksListAdapter.setStocksList(viewState.data)
                 }
                 is Error -> {
-                    stocks_list_progress_bar.hide()
+                    stockRefreshLayout.isRefreshing = false
                     Toast.makeText(requireContext(), viewState.errMsg, Toast.LENGTH_SHORT).show()
                 }
                 is Loading -> {
-                    stocks_list_progress_bar.show()
+                    stockRefreshLayout.isRefreshing = true
                 }
             }
         }
@@ -95,6 +99,13 @@ class StocksListFragment : Fragment() {
         })
 
         return view
+    }
+
+    /**
+     * Called when a swipe gesture triggers a refresh.
+     */
+    override fun onRefresh() {
+        viewModel.getStocks(true)
     }
 
 }

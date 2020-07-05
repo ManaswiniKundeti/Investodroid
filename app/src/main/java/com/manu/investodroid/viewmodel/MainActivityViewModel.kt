@@ -19,14 +19,14 @@ class MainActivityViewModel(private val stockListRepository: StockListRepository
 
     private val stocks = mutableListOf<Stock>()
 
-    fun getStocks() {
-        if (_stockListLiveData.value is Success || _stockListLiveData.value is Loading) {
+    fun getStocks(forceRefresh: Boolean = false) {
+        if (!forceRefresh && (_stockListLiveData.value is Success || _stockListLiveData.value is Loading)) {
             return
         }
 
         viewModelScope.launch {
             _stockListLiveData.value = Loading
-            val stockList = stockListRepository.getStocksList()
+            val stockList = stockListRepository.getStocksList(forceRefresh)
             if (stockList == null || stockList.isEmpty()) {
                 _stockListLiveData.value = Error("There was an error fetching stocks")
             } else {

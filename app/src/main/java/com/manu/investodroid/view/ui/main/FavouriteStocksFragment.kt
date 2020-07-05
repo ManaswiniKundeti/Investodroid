@@ -46,7 +46,7 @@ class FavouriteStocksFragment : Fragment()  {
         val favstocksListObserver = Observer<ViewState<List<Stock>>>{ viewState ->
             when(viewState) {
                 is Success -> {
-                    stocks_list_progress_bar?.hide()
+                    fav_stocks_progress_bar?.hide()
                     val listOfStocks = viewState.data
                     if (listOfStocks.isEmpty()) {
                         empty_state_image_view.show()
@@ -60,11 +60,11 @@ class FavouriteStocksFragment : Fragment()  {
                     }
                 }
                 is Error -> {
-                    stocks_list_progress_bar?.hide()
+                    fav_stocks_progress_bar?.hide()
                     Toast.makeText(requireContext(), viewState.errMsg, Toast.LENGTH_SHORT).show()
                 }
                 is Loading -> {
-                    stocks_list_progress_bar?.show()
+                    fav_stocks_progress_bar?.show()
                 }
             }
         }

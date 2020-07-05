@@ -18,22 +18,21 @@ class StockListRepository(private val investodroidService: IInvestodroidService,
 
     private val TAG = StockListRepository::class.java.simpleName
 
-    override suspend fun getStocksList(): List<Stock>? {
+    override suspend fun getStocksList(forceApi: Boolean): List<Stock>? {
         val currentTimeStamp: Long = System.currentTimeMillis() / 1000
-
         val sharedPreferenceTSValue = sharedPreferenceHelper.getLong(NETWORK_TIMESTAMP_KEY, 0L)
-
         val hoursPassed = currentTimeStamp - sharedPreferenceTSValue
 
+        val shouldUseApi = forceApi || hoursPassed >= TWENTY_FOUR_HOURS
+
         return try {
-            if (hoursPassed >= TWENTY_FOUR_HOURS) {
+            if (shouldUseApi) {
                 sharedPreferenceHelper.putLong(NETWORK_TIMESTAMP_KEY, currentTimeStamp)
                 val response = investodroidService.fetchStockList()
                 if (response.isSuccessful && response.body() != null) {
                     val stockList = response.body()!!
                     stockDao.insertStocks(stockList)
                     stockList
-
                 } else {
                     null
                 }
