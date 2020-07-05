@@ -12,20 +12,19 @@ import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
 import com.manu.investodroid.extensions.show
-import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.StockDetail
-import com.manu.investodroid.viewmodel.ProfileActivityViewModel
-import com.manu.investodroid.viewmodel.ProfileActivityViewModelFactory
+import com.manu.investodroid.viewmodel.StockDetailActivityViewModel
+import com.manu.investodroid.viewmodel.StockDetailActivityViewModelFactory
 import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
 import kotlinx.android.synthetic.main.activity_profile.*
 
-class ProfileActivity : AppCompatActivity() {
+class StockDetailActivity : AppCompatActivity() {
 
-    private val viewmodelFactory by lazy { ProfileActivityViewModelFactory(this) }
-    private val viewModel: ProfileActivityViewModel by viewModels {
+    private val viewmodelFactory by lazy { StockDetailActivityViewModelFactory(this) }
+    private val viewModel: StockDetailActivityViewModel by viewModels {
         viewmodelFactory
     }
 

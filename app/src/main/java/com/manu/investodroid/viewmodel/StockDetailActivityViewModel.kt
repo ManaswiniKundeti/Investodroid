@@ -8,7 +8,7 @@ import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.repository.StockDetailRepository
 import com.manu.investodroid.viewstate.ViewState
 
-class ProfileActivityViewModel(private val stockDetailRepository: StockDetailRepository) : ViewModel() {
+class StockDetailActivityViewModel(private val stockDetailRepository: StockDetailRepository) : ViewModel() {
     val detailLiveData : LiveData<ViewState<StockDetail>> = stockDetailRepository.stockDetailLiveData
     val isFavLiveData = stockDetailRepository.isFavLiveData
 

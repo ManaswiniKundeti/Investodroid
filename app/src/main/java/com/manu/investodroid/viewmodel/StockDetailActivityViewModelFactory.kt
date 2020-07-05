@@ -9,13 +9,13 @@ import com.manu.investodroid.persistence.AppDatabase
 import com.manu.investodroid.repository.StockDetailRepository
 import java.lang.IllegalArgumentException
 
-class ProfileActivityViewModelFactory (private val context: Context) : ViewModelProvider.Factory{
+class StockDetailActivityViewModelFactory (private val context: Context) : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(ProfileActivityViewModel::class.java)){
-            return ProfileActivityViewModel(StockDetailRepository(createInvestodroidService(),
-                AppDatabase.getAppDatabase(context)!!.stockDao(),
-                AppDatabase.getAppDatabase(context)!!.favStockDao(),
-                AppDatabase.getAppDatabase(context)!!.stockDetailDao(),
+        if(modelClass.isAssignableFrom(StockDetailActivityViewModel::class.java)){
+            return StockDetailActivityViewModel(StockDetailRepository(createInvestodroidService(),
+                AppDatabase.getAppDatabase(context).stockDao(),
+                AppDatabase.getAppDatabase(context).favStockDao(),
+                AppDatabase.getAppDatabase(context).stockDetailDao(),
                 SharedPreferenceHelper(context)
             )) as T
         }
