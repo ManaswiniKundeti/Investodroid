@@ -3,10 +3,9 @@ package com.manu.investodroid.repository
 import com.manu.investodroid.model.FavouriteStock
 
 interface IStockDetailRepository {
-    fun getStockProfile(symbol: String)
+    suspend fun getStockDetails(symbol: String)
 
-
-    fun insertFavouriteStock(symbol: String)
-    fun deleteFavouriteStock(symbol: String)
-    fun isStockFavorite(symbol: String)
+    suspend fun insertFavouriteStock(symbol: String)
+    suspend fun deleteFavouriteStock(symbol: String)
+    suspend fun isStockFavorite(symbol: String)
 }

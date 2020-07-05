@@ -11,7 +11,7 @@ import com.manu.investodroid.model.StockDetail
 interface StockDetailDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStockDetails(stockDetails: StockDetail)
+    suspend fun insertStockDetails(stockDetails: StockDetail)
 
     @Query("SELECT * FROM StockDetail WHERE symbol = :inputSymbol")
     fun getStockDetails(inputSymbol : String) : StockDetail

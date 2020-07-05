@@ -32,8 +32,8 @@ interface IInvestodroidService {
     suspend fun fetchStockList() : Response<List<Stock>>
 
     @GET("company/profile/{symbol}?apikey=${BuildConfig.FINANCIAL_MODELING_PREP_API_KEY}")
-    fun fetchStockDetails(
+    suspend fun fetchStockDetails(
         @Path("symbol") symbol :String
-    ) : Call<StockDetail>
+    ) : Response<StockDetail>
 
 }

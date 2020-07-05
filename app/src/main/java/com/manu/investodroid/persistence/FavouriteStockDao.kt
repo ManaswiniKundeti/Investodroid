@@ -8,14 +8,14 @@ import com.manu.investodroid.model.Stock
 interface FavouriteStockDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertFavouriteStock(favouriteStock : FavouriteStock)
+    suspend fun insertFavouriteStock(favouriteStock : FavouriteStock)
 
     @Delete
-    fun deleteFavouriteStock(favouriteStock : FavouriteStock)
+    suspend fun deleteFavouriteStock(favouriteStock : FavouriteStock)
 
     @Query("SELECT Stock.symbol, Stock.name, Stock.price, Stock.exchange FROM Stock INNER JOIN FavouriteStock ON Stock.symbol = FavouriteStock.favouriteStock")
     suspend fun getFavouriteStocks() : List<Stock>
 
     @Query("SELECT * from FavouriteStock where favouriteStock=:stockSymbol")
-    fun getFavoriteStock(stockSymbol: String): List<FavouriteStock>
+    suspend fun getFavoriteStock(stockSymbol: String): List<FavouriteStock>
 }
