@@ -1,16 +1,13 @@
 package com.manu.investodroid.repository
 
-import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.manu.investodroid.helpers.SharedPreferenceHelper
 import com.manu.investodroid.model.FavouriteStock
 import com.manu.investodroid.model.StockDetail
 import com.manu.investodroid.network.IInvestodroidService
 import com.manu.investodroid.persistence.FavouriteStockDao
 import com.manu.investodroid.persistence.StockDetailDao
-import com.manu.investodroid.persistence.StockDao
 import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
@@ -19,8 +16,7 @@ import com.manu.investodroid.viewstate.ViewState
 class StockDetailRepository(
     private val investodroidService: IInvestodroidService,
     private val favouriteStockDao: FavouriteStockDao,
-    private val stockDetailDao: StockDetailDao,
-    private val sharedPreferenceHelper: SharedPreferenceHelper
+    private val stockDetailDao: StockDetailDao
 ) : IStockDetailRepository{
 
     private val TAG = StockDetailRepository::class.java.simpleName

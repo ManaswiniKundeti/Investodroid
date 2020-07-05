@@ -14,8 +14,7 @@ class StockDetailActivityViewModelFactory (private val context: Context) : ViewM
         if(modelClass.isAssignableFrom(StockDetailActivityViewModel::class.java)){
             return StockDetailActivityViewModel(StockDetailRepository(createInvestodroidService(),
                 AppDatabase.getAppDatabase(context).favStockDao(),
-                AppDatabase.getAppDatabase(context).stockDetailDao(),
-                SharedPreferenceHelper(context)
+                AppDatabase.getAppDatabase(context).stockDetailDao()
             )) as T
         }
         throw IllegalArgumentException("Unknown view model class")
