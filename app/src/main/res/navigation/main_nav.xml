@@ -28,5 +28,5 @@
         android:id="@+id/profileActivity2"
         android:name="com.manu.investodroid.view.ui.profile.StockDetailActivity"
         android:label="ProfileActivity"
-        tools:layout="@layout/activity_profile"/>
+        tools:layout="@layout/activity_stock_detail"/>
 </navigation>

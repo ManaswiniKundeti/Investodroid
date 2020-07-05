@@ -19,7 +19,7 @@ import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_stock_detail.*
 
 class StockDetailActivity : AppCompatActivity() {
 
@@ -33,7 +33,7 @@ class StockDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        setContentView(R.layout.activity_stock_detail)
 
         val intent : Intent = intent
         clickedStockSymbol = intent.getStringExtra("stock_symbol") ?: ""
