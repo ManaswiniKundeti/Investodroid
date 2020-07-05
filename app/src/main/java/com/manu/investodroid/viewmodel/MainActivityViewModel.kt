@@ -19,6 +19,9 @@ class MainActivityViewModel(private val stockListRepository: StockListRepository
     }
 
     fun getFavStocks(){
-        stockListRepository.getFavouriteStocks()
+        viewModelScope.launch {
+            stockListRepository.getFavouriteStocks()
+        }
+
     }
 }

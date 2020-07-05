@@ -14,7 +14,7 @@ interface FavouriteStockDao {
     fun deleteFavouriteStock(favouriteStock : FavouriteStock)
 
     @Query("SELECT Stock.symbol, Stock.name, Stock.price, Stock.exchange FROM Stock INNER JOIN FavouriteStock ON Stock.symbol = FavouriteStock.favouriteStock")
-    fun getFavouriteStocks() : List<Stock>
+    suspend fun getFavouriteStocks() : List<Stock>
 
     @Query("SELECT * from FavouriteStock where favouriteStock=:stockSymbol")
     fun getFavoriteStock(stockSymbol: String): List<FavouriteStock>

@@ -1,6 +1,5 @@
 package com.manu.investodroid.repository
 
-import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,6 @@ import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class StockListRepository(private val investodroidService: IInvestodroidService,
                           private val stockDao: StockDao,
@@ -68,35 +66,15 @@ class StockListRepository(private val investodroidService: IInvestodroidService,
         }
     }
 
-    override fun getFavouriteStocks() {
-        FetchFavStocksTask(_stocksListLiveData,favouriteStockDao).execute()
-    }
-
-    class FetchFavStocksTask(private val stockListLiveData : MutableLiveData<ViewState<List<Stock>>>,
-                             private val favouriteStockDao: FavouriteStockDao) : AsyncTask<Void, Void, List<Stock>>(){
-
-        private val TAG = FetchFavStocksTask::class.java.simpleName
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            stockListLiveData.value = Loading
-        }
-
-        override fun doInBackground(vararg p0: Void?): List<Stock>? {
-            return try {
-                return favouriteStockDao.getFavouriteStocks()
+    override suspend fun getFavouriteStocks() {
+        withContext(Dispatchers.IO){
+            _stocksListLiveData.postValue(Loading)
+            try {
+                val favStocksList = favouriteStockDao.getFavouriteStocks()
+                _stocksListLiveData.postValue(Success(favStocksList))
             } catch (e: Exception) {
-                Log.e(TAG, e.message)
-                null
-            }
-        }
-
-        override fun onPostExecute(result: List<Stock>?) {
-            super.onPostExecute(result)
-            if (result == null) {
-                stockListLiveData.value = Error("Error fetching list of fav stocks")
-            } else {
-                stockListLiveData.value = Success(result)
+                Log.e(TAG, "There was an error fetching favourite stocks", e)
+                _stocksListLiveData.postValue(Error("There was an error fetching favourite stocks"))
             }
         }
 
