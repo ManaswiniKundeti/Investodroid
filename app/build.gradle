@@ -15,7 +15,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String","FINANCIAL_MODELING_PREP_API_KEY","\"04586a387930113668f282e722d310c5\"")
+        buildConfigField("String","FINANCIAL_MODELING_PREP_API_KEY","\"24cadea6c9e42d10450a4aa63cc2ff83\"")
     }
 
     buildTypes {
@@ -85,6 +85,14 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6"
+
+    //espresso setup
+    androidTestImplementation 'com.android.support.test:runner:1.1.0'
+    androidTestImplementation 'com.android.support.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -23,6 +23,10 @@ import kotlinx.android.synthetic.main.activity_stock_detail.*
 
 class StockDetailActivity : AppCompatActivity() {
 
+    companion object {
+        const val ARG_STOCK_SYMBOL = "stock_symbol"
+    }
+
     private val viewmodelFactory by lazy { StockDetailActivityViewModelFactory(this) }
     private val viewModel: StockDetailActivityViewModel by viewModels {
         viewmodelFactory
@@ -36,7 +40,7 @@ class StockDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_stock_detail)
 
         val intent : Intent = intent
-        clickedStockSymbol = intent.getStringExtra("stock_symbol") ?: ""
+        clickedStockSymbol = intent.getStringExtra(ARG_STOCK_SYMBOL) ?: ""
 
         if (clickedStockSymbol.isEmpty()) {
             finish()
