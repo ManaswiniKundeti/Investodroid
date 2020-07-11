@@ -98,4 +98,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    // Fragment testing
+    def fragment_version = "1.2.5"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    def nav_version = "2.3.0"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
 }

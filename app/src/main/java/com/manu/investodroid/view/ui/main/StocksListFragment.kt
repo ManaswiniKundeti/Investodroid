@@ -7,20 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.manu.investodroid.R
-import com.manu.investodroid.extensions.hide
-import com.manu.investodroid.extensions.show
 import com.manu.investodroid.model.Stock
 import com.manu.investodroid.view.adapter.StocksListAdapter
 import com.manu.investodroid.viewmodel.MainActivityViewModel
@@ -29,7 +25,6 @@ import com.manu.investodroid.viewstate.Error
 import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
-import kotlinx.android.synthetic.main.fragment_stocks_list.*
 
 class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -37,6 +32,8 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val viewModel: MainActivityViewModel by viewModels {
         viewmodelFactory
     }
+
+    private val idlingResoure = CountingIdlingResource("stock_list_fragment")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +51,7 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val stocksList: RecyclerView = view.findViewById(R.id.stocksList)
         stocksList.layoutManager = LinearLayoutManager(requireContext())
 
-        val stocksListAdapter = StocksListAdapter(requireContext() as MainActivity)
+        val stocksListAdapter = StocksListAdapter(requireContext())
         stocksList.adapter = stocksListAdapter
 
         //create observer to update Ui after network calls
@@ -63,10 +60,12 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 is Success -> {
                     stockRefreshLayout.isRefreshing = false
                     stocksListAdapter.setStocksList(viewState.data)
+                    idlingResoure.decrement()
                 }
                 is Error -> {
                     stockRefreshLayout.isRefreshing = false
                     Toast.makeText(requireContext(), viewState.errMsg, Toast.LENGTH_SHORT).show()
+                    idlingResoure.decrement()
                 }
                 is Loading -> {
                     stockRefreshLayout.isRefreshing = true
@@ -76,6 +75,7 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         viewModel.stockLiveData.observe(viewLifecycleOwner, stocksListObserver)
         viewModel.getStocks()
+        idlingResoure.increment()
 
         val searchEditText = view.findViewById<EditText>(R.id.search_edit_text)
         searchEditText.addTextChangedListener(object: TextWatcher {
@@ -85,6 +85,7 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 }
 
                 val filterText = editableText.toString().trim()
+                idlingResoure.increment()
                 viewModel.filterStockList(filterText)
             }
 
@@ -107,5 +108,8 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onRefresh() {
         viewModel.getStocks(true)
     }
+
+    @VisibleForTesting
+    fun getIdlingResource() = idlingResoure
 
 }

@@ -1,5 +1,6 @@
 package com.manu.investodroid.view.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ class StocksListItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemVi
     }
 }
 
-class StocksListAdapter(private val mainActivity: MainActivity) : RecyclerView.Adapter<StocksListItemViewHolder>() {
+class StocksListAdapter(private val context: Context) : RecyclerView.Adapter<StocksListItemViewHolder>() {
     private var listOfStocks = listOf<Stock>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StocksListItemViewHolder {
@@ -38,9 +39,9 @@ class StocksListAdapter(private val mainActivity: MainActivity) : RecyclerView.A
         stockViewHolder.itemView.setOnClickListener {item ->
             var stockName = item.stock_name
 //            Toast.makeText(mainActivity,"Stock Clicked is : $stockName",Toast.LENGTH_SHORT).show()
-            val intent = Intent(mainActivity, StockDetailActivity::class.java)
+            val intent = Intent(context, StockDetailActivity::class.java)
             intent.putExtra("stock_symbol", listOfStocks[position].symbol)
-            mainActivity.startActivity(intent)
+            context.startActivity(intent)
         }
     }
 
