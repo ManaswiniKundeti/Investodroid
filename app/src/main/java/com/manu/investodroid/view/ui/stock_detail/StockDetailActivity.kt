@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.manu.investodroid.R
 import com.manu.investodroid.extensions.convertPriceToString
 import com.manu.investodroid.extensions.hide
@@ -34,6 +35,8 @@ class StockDetailActivity : AppCompatActivity() {
 
     private lateinit var clickedStockSymbol: String
     private var isFavorite: Boolean = false
+
+    private var idlingResource = CountingIdlingResource("stock_detail")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,12 +109,12 @@ class StockDetailActivity : AppCompatActivity() {
                         description_text_view.text = stockDetail.profile.description
                         description_text_view.show()
                     }
-
+                    idlingResource.decrement()
                 }
                 is Error -> {
                     profile_progress_bar.hide()
                     Toast.makeText(this, viewState.errMsg, Toast.LENGTH_SHORT).show()
-
+                    idlingResource.decrement()
                 }
                 is Loading -> {
                     profile_progress_bar.show()
@@ -120,6 +123,7 @@ class StockDetailActivity : AppCompatActivity() {
         }
         viewModel.detailLiveData.observe(this, observer)
         viewModel.fetchStockProfile(clickedStockSymbol)
+        idlingResource.increment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -154,4 +158,6 @@ class StockDetailActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    fun getIdlingResource() = idlingResource
 }
