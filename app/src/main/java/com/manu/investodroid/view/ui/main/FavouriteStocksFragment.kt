@@ -22,7 +22,6 @@ import com.manu.investodroid.viewstate.Loading
 import com.manu.investodroid.viewstate.Success
 import com.manu.investodroid.viewstate.ViewState
 import kotlinx.android.synthetic.main.fragment_favourite_stocks.*
-import kotlinx.android.synthetic.main.fragment_stocks_list.*
 
 class FavouriteStocksFragment : Fragment()  {
     private val viewmodelFactory by lazy { MainActivityViewModelFactory(requireContext()) }
@@ -39,16 +38,16 @@ class FavouriteStocksFragment : Fragment()  {
         val favouriteStocksList : RecyclerView = view.findViewById(R.id.favouriteStocksList)
         favouriteStocksList.layoutManager = LinearLayoutManager(requireContext())
 
-        val favouriteStocksListAdapter = StocksListAdapter(requireContext() as MainActivity)
+        val favouriteStocksListAdapter = StocksListAdapter(requireContext())
         favouriteStocksList.adapter = favouriteStocksListAdapter
 
         //create observer to update Ui after network calls
-        val favstocksListObserver = Observer<ViewState<List<Stock>>>{ viewState ->
+        val favstocksListObserver = Observer<ViewState<List<Stock>?>>{ viewState ->
             when(viewState) {
                 is Success -> {
                     fav_stocks_progress_bar?.hide()
                     val listOfStocks = viewState.data
-                    if (listOfStocks.isEmpty()) {
+                    if (listOfStocks.isNullOrEmpty()) {
                         empty_state_image_view.show()
                         empty_state_text_view.show()
                         favouriteStocksList.hide()

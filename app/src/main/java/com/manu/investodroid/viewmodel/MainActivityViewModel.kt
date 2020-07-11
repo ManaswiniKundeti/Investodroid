@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 
 class MainActivityViewModel(private val stockListRepository: StockListRepository) : ViewModel() {
 
-    private val _stockListLiveData: MutableLiveData<ViewState<List<Stock>>> = MutableLiveData()
-    val stockLiveData : LiveData<ViewState<List<Stock>>> =_stockListLiveData
+    private val _stockListLiveData: MutableLiveData<ViewState<List<Stock>?>> = MutableLiveData()
+    val stockLiveData : LiveData<ViewState<List<Stock>?>> =_stockListLiveData
 
     private val stocks = mutableListOf<Stock>()
 
@@ -43,11 +43,7 @@ class MainActivityViewModel(private val stockListRepository: StockListRepository
 
         viewModelScope.launch {
             val favStocks = stockListRepository.getFavouriteStocks()
-            if (favStocks.isNullOrEmpty()) {
-                _stockListLiveData.value = Error("There was an error fetching stocks")
-            } else {
-                _stockListLiveData.value = Success(favStocks)
-            }
+            _stockListLiveData.value = Success(favStocks)
         }
     }
 

@@ -45,7 +45,8 @@ class StocksListAdapter(private val context: Context) : RecyclerView.Adapter<Sto
         }
     }
 
-    fun setStocksList(listOfStocks : List<Stock>){
+    fun setStocksList(listOfStocks : List<Stock>?){
+        if (listOfStocks == null) return
         this.listOfStocks = listOfStocks
         notifyDataSetChanged()
     }

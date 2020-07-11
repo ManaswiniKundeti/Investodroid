@@ -55,7 +55,7 @@ class StocksListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         stocksList.adapter = stocksListAdapter
 
         //create observer to update Ui after network calls
-        val stocksListObserver = Observer<ViewState<List<Stock>>>{viewState ->
+        val stocksListObserver = Observer<ViewState<List<Stock>?>>{viewState ->
             when(viewState) {
                 is Success -> {
                     stockRefreshLayout.isRefreshing = false
