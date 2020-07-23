@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">  
-A sample stock viewer Android application built on <b>Kotlin</b> using <b>Android Architecture components (ViewModel, LiveData, Room)</b>, <b>Retrofit</b> and <b>Moshi</b> and <b>Coroutines</b>.
+A sample stock viewer Android application built on <b>Kotlin</b> using <b>Android Architecture components (ViewModel, LiveData, Room)</b>, <b>Retrofit</b>, <b>Moshi</b>, <b>Coroutines</b> and <b>Espresso</b>.
 The app also uses Bottom Navigation View and <b>JetPack Navigation Component</b>.<br/>
 This app also allows users to turn on <b>Dark Mode<b/> 🔥
 </p>
